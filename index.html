@@ -57,17 +57,32 @@
     }
     .circle {
       margin: 30px auto 10px auto;
-      width: 180px;
-      height: 180px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
-      border: 8px solid #f7c948;
+      border: 10px solid #f7c948;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: bold;
       color: #1e2447;
       background: #fff;
+      line-height: 1.4em;
+    }
+    .circle .reward {
+      font-size: 22px;
+      margin-top: 6px;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin: 16px auto;
+      max-width: 240px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #111;
     }
     .level-banner {
       background: #111;
@@ -76,21 +91,23 @@
       padding: 8px 16px;
       border-radius: 20px;
       font-weight: bold;
-      margin-top: -10px;
+      margin-top: 15px;
     }
     .progress {
       margin: 20px 0;
-      height: 14px;
-      background: #eee;
+      height: 16px;
+      background: #e6e8ef;
       border-radius: 10px;
       overflow: hidden;
       position: relative;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
     }
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #f7c948, #facc15);
       width: 0%;
-      transition: width 0.5s;
+      background: linear-gradient(90deg, #1e2447, #3a4b91);
+      transition: width 0.6s ease-in-out;
+      border-radius: 10px 0 0 10px;
     }
     .footer {
       margin-top: 10px;
@@ -115,8 +132,15 @@
   </div>
 
   <div class="circle" id="rewardCircle">
-    $0
+    <div id="nextPoints">Next Level: 0 points</div>
+    <div class="reward" id="nextReward">$0</div>
   </div>
+
+  <div class="stats">
+    <div id="units">Units: 0</div>
+    <div id="currentPoints">Points: 0</div>
+  </div>
+
   <div class="level-banner" id="nextLevel">LEVEL 1: 250 POINTS</div>
 
   <div class="progress">
@@ -151,17 +175,19 @@
     const text = await res.text();
     const rows = text.split("\n").map(r => r.split(","));
     
-    // Tìm email
     const idx = rows.findIndex(r => r[0].trim().toLowerCase() === email);
     if (idx === -1) {
       alert("Email not found!");
       return;
     }
 
-    const points = parseInt(rows[idx][4] || "0", 10); // cột E = Points
-    document.getElementById("userEmail").innerText = "Email: " + email;
+    const units = parseInt(rows[idx][3] || "0", 10);   // cột D
+    const points = parseInt(rows[idx][4] || "0", 10);  // cột E
 
-    // Xác định level hiện tại
+    document.getElementById("userEmail").innerText = "Email: " + email;
+    document.getElementById("units").innerText = "Units: " + units.toLocaleString();
+    document.getElementById("currentPoints").innerText = "Points: " + points.toLocaleString();
+
     let currentLevel = 0, nextMilestone = milestones[0];
     for (let i = 0; i < milestones.length; i++) {
       if (points >= milestones[i].points) {
@@ -174,12 +200,13 @@
     }
 
     document.getElementById("currentLevel").innerText = `YOU'RE ON LEVEL ${currentLevel}!`;
-    document.getElementById("rewardCircle").innerText = `$${nextMilestone.reward}`;
-    document.getElementById("nextLevel").innerText = `LEVEL ${currentLevel+1}: ${nextMilestone.points} POINTS`;
+    document.getElementById("nextPoints").innerText = `Next Level: ${nextMilestone.points.toLocaleString()} points`;
+    document.getElementById("nextReward").innerText = `$${nextMilestone.reward.toLocaleString()}`;
+    document.getElementById("nextLevel").innerText = `LEVEL ${currentLevel+1}: ${nextMilestone.points.toLocaleString()} POINTS`;
 
     const progress = Math.min((points / nextMilestone.points) * 100, 100);
     document.getElementById("progressFill").style.width = progress + "%";
-    document.getElementById("progressText").innerText = `${points} / ${nextMilestone.points} (${progress.toFixed(1)}%)`;
+    document.getElementById("progressText").innerText = `${points.toLocaleString()} / ${nextMilestone.points.toLocaleString()} (${progress.toFixed(0)}%)`;
 
     document.getElementById("widget").style.display = "block";
   }
