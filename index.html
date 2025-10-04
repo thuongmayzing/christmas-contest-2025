@@ -5,54 +5,59 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Christmas Contest 2025</title>
   <style>
-    body {font-family: Inter, sans-serif; background:#f6f7fb; margin:0; padding:0; color:#111827;}
-    .container {max-width:600px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1);}
-    .login {text-align:center; margin-bottom:20px;}
-    .login input {padding:10px; width:70%; border:1px solid #ccc; border-radius:6px;}
-    .login button {padding:10px 16px; margin-left:10px; border:none; border-radius:6px; background:#111827; color:#fff; cursor:pointer;}
-    .campaign {font-size:20px; font-weight:600; text-align:center; margin-bottom:10px;}
-    .dates {text-align:center; font-size:14px; color:#555; margin-bottom:30px;}
-    .badge-circle {width:180px; height:180px; border-radius:50%; background:#ffd966; display:flex; align-items:center; justify-content:center; margin:0 auto;}
-    .badge-inner {background:#fff; border-radius:50%; width:140px; height:140px; display:flex; align-items:center; justify-content:center; flex-direction:column;}
-    .badge-level {font-size:22px; font-weight:700;}
-    .progress-wrap {width:100%; margin:20px auto; text-align:center;}
-    .progress-bar {background:#eee; border-radius:10px; height:16px; overflow:hidden;}
-    .progress-fill {background:linear-gradient(90deg,#ff6f61,#fcb045); height:100%; width:0%;}
-    .next-reward {margin-top:12px; font-weight:600;}
-    .email-display {margin-top:8px; font-size:14px; color:#888;}
+    body {margin:0; font-family: Gotham, Arial, sans-serif; background:#fff;}
+    .top {background:#1e2447; color:white; text-align:center; padding:30px 20px;}
+    .top h1 {margin:0; font-size:26px;}
+    .top p {margin:4px 0; font-size:14px; opacity:0.9;}
+    .divider {border-top:1px solid #ccc; margin:16px auto; max-width:240px; opacity:0.4;}
+    .level-now {font-size:20px; font-weight:600; margin-top:10px;}
+    .bottom {background:#fff; text-align:center; padding:30px 20px;}
+    .circle {width:180px; height:180px; border-radius:50%; background:#ffd166; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:20px; font-weight:700;}
+    .banner {background:#111; color:#fff; display:inline-block; padding:6px 20px; border-radius:20px; font-size:14px; margin-bottom:20px;}
+    .progress-wrap {max-width:360px; margin:0 auto;}
+    .progress-text {display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; color:#555;}
+    .progress-bar {height:14px; background:#eee; border-radius:10px; overflow:hidden;}
+    .progress-fill {height:100%; background:linear-gradient(90deg,#ff6f61,#fcb045); width:0%;}
+    .email-display {margin-top:12px; font-size:13px; color:#666;}
+    .login {text-align:center; margin:20px;}
+    .login input{padding:8px; border:1px solid #ccc; border-radius:6px; width:220px;}
+    .login button{padding:8px 14px; margin-left:6px; border:none; border-radius:6px; background:#1e2447; color:white; cursor:pointer;}
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="login">
-      <label>Enter your email to view your Christmas Contest progress</label><br><br>
-      <input type="email" id="emailInput" placeholder="you@example.com"/>
-      <button id="viewWidget">View my widget</button>
+  <div class="login">
+    <input type="email" id="emailInput" placeholder="Enter your email"/>
+    <button id="viewBtn">View my widget</button>
+  </div>
+
+  <div id="widget" style="display:none">
+    <div class="top">
+      <h1>Christmas Contest</h1>
+      <p>20 Sep to 31 Dec (23:59 GMT)</p>
+      <div class="divider"></div>
+      <div class="level-now" id="currentLevel">YOU'RE ON LEVEL 1!</div>
     </div>
 
-    <div id="widget" style="display:none;">
-      <div class="campaign">Christmas Contest 2025</div>
-      <div class="dates">20 September – 31 December 2025 (23:59 GMT)</div>
-      <div class="badge-circle">
-        <div class="badge-inner">
-          <div style="font-size:14px; color:#555;">NEXT</div>
-          <div class="badge-level" id="nextLevel">LEVEL</div>
-          <div id="nextTarget"></div>
+    <div class="bottom">
+      <div class="circle" id="rewardCircle">💰 $0</div>
+      <div class="banner" id="nextBanner">LEVEL 2: 500 POINTS</div>
+      <div class="progress-wrap">
+        <div class="progress-text">
+          <span id="progressText">0 / 500</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
         </div>
       </div>
-      <div class="next-reward" id="nextReward"></div>
-      <div class="progress-wrap">
-        <div id="progressText"></div>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      </div>
-      <div class="email-display" id="userEmail"></div>
+      <div class="email-display" id="emailDisplay"></div>
     </div>
   </div>
 
 <script>
 const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
 
-// milestones (points → reward)
+// milestones
 const milestones = [
   {points:250, reward:"$50"},
   {points:500, reward:"$100"},
@@ -66,66 +71,45 @@ const milestones = [
   {points:125000, reward:"$100000"}
 ];
 
-document.getElementById("viewWidget").addEventListener("click", function() {
-  const email = document.getElementById("emailInput").value.trim();
-  if (!email) {
-    alert("Please enter your email!");
-    return;
-  }
-  loadUserData(email);
+document.getElementById("viewBtn").addEventListener("click", () => {
+  const email = document.getElementById("emailInput").value.trim().toLowerCase();
+  if (!email) { alert("Please enter email"); return; }
+  loadData(email);
 });
 
-async function loadUserData(email) {
-  try {
-    const res = await fetch(sheetUrl);
-    const text = await res.text();
-    const rows = text.split("\n").map(r => r.split(","));
-    const headers = rows[0];
-    const emailIndex = headers.indexOf("Email");
-    const pointsIndex = headers.indexOf("Total Points");
+async function loadData(email) {
+  const res = await fetch(sheetUrl);
+  const text = await res.text();
+  const rows = text.split("\n").map(r => r.split(","));
+  const headers = rows[0].map(h=>h.trim());
+  const emailIndex = headers.indexOf("Email");
+  const pointsIndex = headers.indexOf("Total Points");
 
-    const userRow = rows.find(r => r[emailIndex] && r[emailIndex].trim() === email);
-    if (!userRow) {
-      alert("Email not found in contest data.");
-      return;
-    }
-
-    const points = parseInt(userRow[pointsIndex]) || 0;
-    renderWidget(email, points);
-  } catch (e) {
-    alert("Error loading data: " + e);
-  }
+  const row = rows.find(r => r[emailIndex] && r[emailIndex].trim().toLowerCase() === email);
+  if (!row) { alert("Email not found"); return; }
+  const points = parseInt((row[pointsIndex]||"0").replace(/[^0-9]/g,"")) || 0;
+  render(points,email);
 }
 
-function renderWidget(email, points) {
-  document.querySelector(".login").style.display = "none";
-  const widget = document.getElementById("widget");
-  widget.style.display = "block";
+function render(points,email){
+  document.getElementById("widget").style.display="block";
+  document.getElementById("emailDisplay").textContent = "Email: "+email;
 
-  document.getElementById("userEmail").textContent = "Email: " + email;
+  let currentLevel=0, next=null;
+  milestones.forEach((m,i)=>{
+    if(points>=m.points){ currentLevel=i+1; }
+    else if(!next){ next=m; }
+  });
+  if(!next) next=milestones[milestones.length-1];
 
-  // find current and next milestone
-  let current = {points:0, reward:""};
-  let next = null;
-  for (let m of milestones) {
-    if (points >= m.points) {
-      current = m;
-    } else {
-      next = m;
-      break;
-    }
-  }
-  if (!next) {
-    next = milestones[milestones.length-1];
-  }
+  document.getElementById("currentLevel").textContent = `YOU'RE ON LEVEL ${currentLevel}!`;
+  document.getElementById("rewardCircle").textContent = "💰 " + next.reward;
+  document.getElementById("nextBanner").textContent = `LEVEL ${currentLevel+1}: ${next.points.toLocaleString()} POINTS`;
 
-  document.getElementById("nextLevel").textContent = "LEVEL " + next.points.toLocaleString();
-  document.getElementById("nextTarget").textContent = next.points + " POINTS";
-  document.getElementById("nextReward").textContent = "Next reward: " + next.reward;
-
-  const progressPercent = Math.min(100, (points / next.points) * 100).toFixed(1);
-  document.getElementById("progressText").textContent = points + " / " + next.points + " (" + progressPercent + "%)";
-  document.getElementById("progressFill").style.width = progressPercent + "%";
+  const percent = Math.min(100, (points/next.points)*100).toFixed(0);
+  document.getElementById("progressText").textContent = `${points.toLocaleString()} / ${next.points.toLocaleString()}`;
+  document.getElementById("progressPercent").textContent = percent+"%";
+  document.getElementById("progressFill").style.width = percent+"%";
 }
 </script>
 </body>
