@@ -1,42 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Christmas Contest 2025</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Contest Widget</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f8fc;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f5f6fa;
       margin: 0;
       padding: 20px;
-      display: flex;
-      justify-content: center;
     }
     .container {
-      width: 440px;
-    }
-    /* Ô nhập email */
-    .email-box {
+      max-width: 600px;
+      margin: auto;
       background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: #1e2447;
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px; /* cao hơn để chiếm 1/4 */
+      border-radius: 20px 20px 0 0;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .header p {
+      margin: 5px 0;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    .header h3 {
+      margin: 20px 0 0;
+      font-size: 32px; /* to hơn 4 size */
+      font-weight: bold;
+    }
+    .content {
+      padding: 25px;
+      text-align: center;
+    }
+    .circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 8px solid #f4c542;
+      margin: 0 auto 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .circle p {
+      margin: 4px 0;
+    }
+    .circle .next {
+      font-size: 16px;
+      color: #1e2447;
+    }
+    .circle .points {
+      font-size: 26px;
+      font-weight: bold;
+      color: #1e2447;
+    }
+    .circle .bonus {
+      font-size: 16px;
+      color: #444;
+    }
+    .info-row {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #1e2447;
+      gap: 100px;
+    }
+    .progress-container {
+      background: #e0e0e0;
+      border-radius: 20px;
+      height: 20px;
+      margin: 15px 0 5px;
+      position: relative;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #1e2447, #3c4b82);
+      height: 100%;
+      border-radius: 20px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: gray; /* nhạt hơn */
+      margin-top: 6px;
+    }
+    .progress-meta span {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      gap: 4px;
     }
-    .email-box input {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+    .footer {
+      margin-top: 15px;
       font-size: 14px;
+      color: #555;
     }
-    .email-box button {
-      padding: 12px 18px;
+    .login {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .login input {
+      padding: 10px;
+      width: 70%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    .login button {
+      padding: 10px 20px;
       border: none;
       border-radius: 8px;
       background: #1e2447;
@@ -44,207 +131,107 @@
       font-weight: bold;
       cursor: pointer;
     }
-    .widget {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .header {
-      background: #1e2447;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      border-radius: 20px 20px 0 0;
-    }
-    .header h2 {
-      margin: 0;
-      font-size: 22px;
-    }
-    .header p {
-      margin: 5px 0;
-      font-size: 14px;
-      opacity: 0.9;
-    }
-    .divider {
-      height: 1px;
-      background: rgba(255,255,255,0.3);
-      margin: 10px auto;
-      width: 50%;
-    }
-    .header h3 {
-      margin: 0;
-      font-size: 22px; /* to hơn 4 size so với trước */
-      font-weight: bold;
-    }
-    .circle {
-      margin: 30px auto 20px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 8px solid #f4c542;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #1e2447;
-      text-align: center;
-    }
-    .circle small {
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
-    .circle strong {
-      font-size: 22px;
-    }
-    .circle span {
-      font-size: 14px;
-      margin-top: 4px;
-    }
-    .info-row {
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-      font-weight: bold;
-      color: #1e2447;
-      margin-top: 10px;
-    }
-    /* Progress bar */
-    .progress-container {
-      margin: 20px;
-      position: relative;
-    }
-    .progress-bar {
-      height: 20px;
-      border-radius: 12px;
-      background: #e0e0e0;
-      position: relative;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #1e2447, #3f4a77);
-      width: 0%;
-      transition: width 0.4s ease;
-    }
-    .progress-marker {
-      position: absolute;
-      top: -26px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1e2447;
-      transform: translateX(-50%);
-    }
-    .progress-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      margin-top: 6px;
-      color: #777; /* xám nhạt */
-    }
-    .footer {
-      text-align: center;
-      font-size: 14px;
-      color: #777;
-      padding: 15px 10px;
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Email box -->
-    <div class="email-box">
-      <input type="email" id="emailInput" placeholder="Enter your email (example@domain.com)" />
+    <div class="login">
+      <input type="email" id="emailInput" placeholder="Enter your email (example@domain.com)">
       <button onclick="loadData()">View my widget</button>
     </div>
-
-    <!-- Widget -->
-    <div class="widget" id="widget" style="display:none;">
+    <div id="widget" style="display:none;">
       <div class="header">
         <h2>Christmas Contest</h2>
         <p>20 Sep to 31 Dec (23:59 GMT)</p>
-        <div class="divider"></div>
+        <hr style="border: none; height: 1px; background: #ccc; width: 50%; margin: 15px auto;">
         <h3 id="levelText">YOU'RE ON LEVEL 0!</h3>
       </div>
-
-      <div class="circle">
-        <small>Unlock Next Level</small>
-        <strong id="nextPoints">250 Points</strong>
-        <span id="nextReward">$50</span>
-      </div>
-
-      <div class="info-row">
-        <div id="unitsText">Units: 0</div>
-        <div id="pointsText">Points: 0</div>
-      </div>
-
-      <div class="progress-container">
-        <div class="progress-bar" id="progressBar">
+      <div class="content">
+        <div class="circle">
+          <p class="next">Unlock Next Level</p>
+          <p class="points" id="nextPoints">250 Points</p>
+          <p class="bonus" id="nextBonus">$50</p>
+        </div>
+        <div class="info-row">
+          <div id="units">Units: 0</div>
+          <div id="points">Points: 0</div>
+        </div>
+        <div class="progress-container">
           <div class="progress-fill" id="progressFill"></div>
-          <div class="progress-marker" id="progressMarker">0%</div>
         </div>
         <div class="progress-meta">
-          <span id="progressText">0 / 250 Points</span>
-          <span class="time-left">⏰ <span id="daysLeft"></span> days left</span>
+          <span id="progressText">Progress: 0%</span>
+          <span id="daysLeft">⏰ 0 days left</span>
         </div>
+        <div class="footer" id="emailDisplay">Email: -</div>
       </div>
-
-      <div class="footer" id="emailDisplay">Email: example@email.com</div>
     </div>
   </div>
 
   <script>
-    const levels = [
-      { level: 1, points: 250, reward: "$50" },
-      { level: 2, points: 500, reward: "$100" },
-      { level: 3, points: 1500, reward: "$500" },
-      { level: 4, points: 2500, reward: "$750" },
-      { level: 5, points: 5000, reward: "$2000" },
-      { level: 6, points: 10000, reward: "$5000" },
-      { level: 7, points: 25000, reward: "$12500" },
-      { level: 8, points: 50000, reward: "$25000" },
-      { level: 9, points: 100000, reward: "$75000" },
-      { level: 10, points: 125000, reward: "$100000" },
+    const milestones = [
+      { points: 250, bonus: 50 },
+      { points: 500, bonus: 100 },
+      { points: 1500, bonus: 500 },
+      { points: 2500, bonus: 750 },
+      { points: 5000, bonus: 2000 },
+      { points: 10000, bonus: 5000 },
+      { points: 25000, bonus: 12500 },
+      { points: 50000, bonus: 25000 },
+      { points: 100000, bonus: 75000 },
+      { points: 125000, bonus: 100000 }
     ];
 
-    const sheetData = {
-      "thanhsangkm34@gmail.com": { units: 517, points: 707 },
-      "xngbusiness@gmail.com": { units: 474, points: 483 }
-    };
+    const contestEnd = new Date("2025-12-31T23:59:59Z");
 
-    function loadData() {
+    async function loadData() {
       const email = document.getElementById("emailInput").value.trim();
-      if (!sheetData[email]) {
-        alert("Email not found in data!");
-        return;
-      }
-      const { units, points } = sheetData[email];
-      document.getElementById("widget").style.display = "block";
+      if (!email) return alert("Please enter your email!");
 
+      const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv");
+      const text = await res.text();
+
+      const rows = text.split("\n").map(r => r.split(","));
+      const headers = rows[0];
+      const emailIndex = headers.indexOf("Email");
+      const unitsIndex = headers.indexOf("Units");
+      const pointsIndex = headers.indexOf("Points");
+
+      const row = rows.find(r => r[emailIndex] && r[emailIndex].trim() === email);
+      if (!row) return alert("Email not found!");
+
+      const units = parseInt(row[unitsIndex]) || 0;
+      const points = parseInt(row[pointsIndex]) || 0;
+
+      // Level xác định theo milestone gần nhất đạt được
       let currentLevel = 0;
-      for (let i = 0; i < levels.length; i++) {
-        if (points >= levels[i].points) currentLevel = levels[i].level;
+      let nextMilestone = milestones[0];
+      for (let i = 0; i < milestones.length; i++) {
+        if (points >= milestones[i].points) {
+          currentLevel = i + 1;
+          nextMilestone = milestones[i + 1] || milestones[i];
+        } else {
+          nextMilestone = milestones[i];
+          break;
+        }
       }
-      const next = levels.find(l => l.points > points) || levels[levels.length-1];
 
-      document.getElementById("levelText").innerText = "YOU'RE ON LEVEL " + currentLevel + "!";
-      document.getElementById("nextPoints").innerText = next.points + " Points";
-      document.getElementById("nextReward").innerText = next.reward;
-      document.getElementById("unitsText").innerText = "Units: " + units;
-      document.getElementById("pointsText").innerText = "Points: " + points;
-      document.getElementById("progressText").innerText = points + " / " + next.points + " Points";
-      document.getElementById("emailDisplay").innerText = "Email: " + email;
+      document.getElementById("widget").style.display = "block";
+      document.getElementById("levelText").innerText = `YOU'RE ON LEVEL ${currentLevel}!`;
+      document.getElementById("nextPoints").innerText = `${nextMilestone.points} Points`;
+      document.getElementById("nextBonus").innerText = `$${nextMilestone.bonus}`;
+      document.getElementById("units").innerText = `Units: ${units}`;
+      document.getElementById("points").innerText = `Points: ${points}`;
+      document.getElementById("emailDisplay").innerText = `Email: ${email}`;
 
-      let progress = (points / next.points) * 100;
-      document.getElementById("progressFill").style.width = progress + "%";
-      document.getElementById("progressMarker").innerText = Math.floor(progress) + "%";
-      document.getElementById("progressMarker").style.left = progress + "%";
+      const percent = Math.min((points / nextMilestone.points) * 100, 100).toFixed(1);
+      document.getElementById("progressFill").style.width = percent + "%";
+      document.getElementById("progressText").innerText = `Progress: ${percent}%`;
 
-      const endDate = new Date("2025-12-31T23:59:00Z");
       const today = new Date();
-      const diff = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
-      document.getElementById("daysLeft").innerText = diff;
+      const diffTime = contestEnd - today;
+      const diffDays = Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 0);
+      document.getElementById("daysLeft").innerText = `⏰ ${diffDays} days left`;
     }
   </script>
 </body>
