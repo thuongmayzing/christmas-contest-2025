@@ -1,89 +1,189 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Christmas Contest 2025</title>
-<style>
-  :root{--nav:#1e2447;--accent:#ffd166;}
-  body{
-    margin:0;
-    font-family: Gotham, "Helvetica Neue", Arial, sans-serif;
-    background:#f9f9f9;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-  }
-  .card{
-    background:#fff;
-    border-radius:16px;
-    border:1px solid #e5e5e5;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    width:420px;
-    max-width:90%;
-    overflow:hidden;
-  }
-
-  .top{background:var(--nav);color:#fff;text-align:center;padding:28px 20px}
-  .top h1{margin:0;font-size:26px}
-  .top .dates{margin-top:6px;opacity:.9}
-  .divider{width:160px;height:1px;margin:12px auto;background:rgba(255,255,255,0.2)}
-  .level-now{font-size:20px;font-weight:700;margin-top:6px}
-
-  .bottom{padding:36px 20px;text-align:center}
-
-  .circle-wrapper{position:relative; width:280px; margin:0 auto 28px;}
-  .circle{width:220px;height:220px;border-radius:50%;background:#fff;border:14px solid var(--accent);
-    display:flex;align-items:center;justify-content:center;margin:0 auto;}
-  .reward-text{font-size:24px;font-weight:700;color:#111}
-
-  .banner{position:absolute;left:50%;transform:translateX(-50%);
-    bottom:-16px;background:#111;color:#fff;padding:8px 18px;border-radius:20px;font-weight:700}
-
-  .progress-wrap{max-width:360px;margin:36px auto 0}
-  .progress-meta{display:flex;justify-content:space-between;color:#555;margin-bottom:6px;font-size:13px}
-  .progress-bar{height:12px;background:#eee;border-radius:8px;overflow:hidden}
-  .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#ff6f61,#fcb045)}
-
-  .email-display{margin-top:14px;color:#777;font-size:13px;text-align:center}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Contest 2025</title>
+  <style>
+    body {
+      font-family: "Gotham", Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+      color: #1e2447;
+      text-align: center;
+    }
+    .email-input {
+      margin-bottom: 20px;
+    }
+    .email-input input {
+      padding: 10px;
+      width: 280px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    .email-input button {
+      padding: 10px 20px;
+      margin-left: 8px;
+      border: none;
+      border-radius: 6px;
+      background: #1e2447;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .header {
+      background: #1e2447;
+      color: white;
+      padding: 20px;
+      border-radius: 12px 12px 0 0;
+    }
+    .header h1 {
+      margin: 0;
+    }
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      margin: 10px 0;
+    }
+    .circle {
+      margin: 30px auto 10px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 8px solid #f7c948;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #1e2447;
+      background: #fff;
+    }
+    .level-banner {
+      background: #111;
+      color: white;
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-top: -10px;
+    }
+    .progress {
+      margin: 20px 0;
+      height: 14px;
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f7c948, #facc15);
+      width: 0%;
+      transition: width 0.5s;
+    }
+    .footer {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
 
-<div class="card" id="widget" style="display:none">
-  <div class="top">
+<div class="email-input">
+  <input id="email" type="email" placeholder="Enter your email">
+  <button onclick="loadData()">View my widget</button>
+</div>
+
+<div class="card" id="widget" style="display:none;">
+  <div class="header">
     <h1>Christmas Contest</h1>
-    <div class="dates">20 Sep to 31 Dec (23:59 GMT)</div>
+    <div>20 Sep to 31 Dec (23:59 GMT)</div>
     <div class="divider"></div>
-    <div class="level-now" id="currentLevel">YOU'RE ON LEVEL 0!</div>
+    <h2 id="currentLevel">YOU'RE ON LEVEL 0!</h2>
   </div>
 
-  <div class="bottom">
-    <div class="circle-wrapper">
-      <div class="circle">
-        <div class="reward-text" id="rewardInCircle">$0</div>
-      </div>
-      <div class="banner" id="nextBanner">LEVEL 1: 250 POINTS</div>
-    </div>
-
-    <div class="progress-wrap">
-      <div class="progress-meta">
-        <div id="progressText">0 / 250</div>
-        <div id="progressPercent">0%</div>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-    </div>
-
-    <div class="email-display" id="emailDisplay"></div>
+  <div class="circle" id="rewardCircle">
+    $0
   </div>
+  <div class="level-banner" id="nextLevel">LEVEL 1: 250 POINTS</div>
+
+  <div class="progress">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div id="progressText">0 / 250 (0%)</div>
+
+  <div class="footer" id="userEmail"></div>
 </div>
 
 <script>
-/* --- Demo: show widget ngay khi mở --- */
-document.getElementById('widget').style.display='block';
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
+
+  const milestones = [
+    { points: 250, reward: 50 },
+    { points: 500, reward: 100 },
+    { points: 1500, reward: 500 },
+    { points: 2500, reward: 750 },
+    { points: 5000, reward: 2000 },
+    { points: 10000, reward: 5000 },
+    { points: 25000, reward: 12500 },
+    { points: 50000, reward: 25000 },
+    { points: 100000, reward: 75000 },
+    { points: 125000, reward: 100000 },
+  ];
+
+  async function loadData() {
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    if (!email) return alert("Please enter your email!");
+
+    const res = await fetch(sheetUrl);
+    const text = await res.text();
+    const rows = text.split("\n").map(r => r.split(","));
+    
+    // Tìm email
+    const idx = rows.findIndex(r => r[0].trim().toLowerCase() === email);
+    if (idx === -1) {
+      alert("Email not found!");
+      return;
+    }
+
+    const points = parseInt(rows[idx][4] || "0", 10); // cột E = Points
+    document.getElementById("userEmail").innerText = "Email: " + email;
+
+    // Xác định level hiện tại
+    let currentLevel = 0, nextMilestone = milestones[0];
+    for (let i = 0; i < milestones.length; i++) {
+      if (points >= milestones[i].points) {
+        currentLevel = i + 1;
+        nextMilestone = milestones[i + 1] || milestones[i];
+      } else {
+        nextMilestone = milestones[i];
+        break;
+      }
+    }
+
+    document.getElementById("currentLevel").innerText = `YOU'RE ON LEVEL ${currentLevel}!`;
+    document.getElementById("rewardCircle").innerText = `$${nextMilestone.reward}`;
+    document.getElementById("nextLevel").innerText = `LEVEL ${currentLevel+1}: ${nextMilestone.points} POINTS`;
+
+    const progress = Math.min((points / nextMilestone.points) * 100, 100);
+    document.getElementById("progressFill").style.width = progress + "%";
+    document.getElementById("progressText").innerText = `${points} / ${nextMilestone.points} (${progress.toFixed(1)}%)`;
+
+    document.getElementById("widget").style.display = "block";
+  }
 </script>
+
 </body>
 </html>
