@@ -7,210 +7,253 @@
   <style>
     body {
       font-family: "Gotham", Arial, sans-serif;
-      background: #f4f6f8;
+      background: #f5f6fa;
       margin: 0;
-      padding: 20px;
-      color: #1e2447;
-      text-align: center;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
     }
-    .email-input {
-      margin-bottom: 20px;
-    }
-    .email-input input {
-      padding: 10px;
-      width: 280px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-    .email-input button {
-      padding: 10px 20px;
-      margin-left: 8px;
-      border: none;
-      border-radius: 6px;
-      background: #1e2447;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .card {
+
+    .container {
+      width: 100%;
       max-width: 480px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      padding: 20px;
+      margin-top: 20px;
     }
+
     .header {
       background: #1e2447;
       color: white;
       padding: 20px;
-      border-radius: 12px 12px 0 0;
+      border-radius: 12px 12px 20px 20px; /* bo tròn góc dưới */
+      text-align: center;
     }
+
     .header h1 {
       margin: 0;
+      font-size: 22px;
     }
+
+    .header p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+
     .divider {
+      width: 50%; /* ngắn lại */
+      margin: 10px auto;
       height: 1px;
-      background: rgba(255,255,255,0.3);
-      margin: 10px 0;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 2px;
     }
-    .circle {
-      margin: 30px auto 10px auto;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 10px solid #f7c948;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+
+    .header h2 {
+      margin: 10px 0 0;
       font-size: 18px;
       font-weight: bold;
-      color: #1e2447;
+    }
+
+    .email-input {
       background: #fff;
-      line-height: 1.4em;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-top: 20px;
+      text-align: center;
     }
-    .circle .reward {
+
+    .email-input input {
+      padding: 10px;
+      width: 70%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-right: 8px;
+    }
+
+    .email-input button {
+      padding: 10px 16px;
+      border: none;
+      background: #1e2447;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .widget {
+      background: #fff;
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 8px solid #f5c242;
+      margin: 0 auto 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .circle .small {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .circle .big {
       font-size: 22px;
-      margin-top: 6px;
+      margin: 5px 0;
     }
+
+    .circle .reward {
+      font-size: 14px;
+      color: #333;
+    }
+
     .stats {
       display: flex;
-      justify-content: space-between;
-      margin: 16px auto;
-      max-width: 240px;
-      font-size: 15px;
-      font-weight: bold;
-      color: #111;
-    }
-    .level-banner {
-      background: #111;
-      color: white;
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: bold;
+      justify-content: space-around;
       margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
     }
-    .progress {
-      margin: 20px 0;
+
+    .progress-bar {
+      margin-top: 20px;
       height: 16px;
-      background: #e6e8ef;
-      border-radius: 10px;
+      border-radius: 8px;
+      background: #e5e5e5;
       overflow: hidden;
       position: relative;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
     }
+
     .progress-fill {
       height: 100%;
+      background: linear-gradient(90deg, #1e2447, #3b4a99);
       width: 0%;
-      background: linear-gradient(90deg, #1e2447, #3a4b91);
-      transition: width 0.6s ease-in-out;
-      border-radius: 10px 0 0 10px;
+      border-radius: 8px;
+      transition: width 0.6s ease;
     }
-    .footer {
-      margin-top: 10px;
+
+    .progress-text {
+      margin-top: 8px;
       font-size: 14px;
-      color: #555;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .email-display {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="header">
+      <h1>Christmas Contest</h1>
+      <p>20 Sep to 31 Dec (23:59 GMT)</p>
+      <div class="divider"></div>
+      <h2 id="current-level">YOU'RE ON LEVEL 0!</h2>
+    </div>
 
-<div class="email-input">
-  <input id="email" type="email" placeholder="Enter your email">
-  <button onclick="loadData()">View my widget</button>
-</div>
+    <div class="email-input">
+      <input type="email" id="email" placeholder="Enter your email" />
+      <button onclick="loadData()">View my widget</button>
+    </div>
 
-<div class="card" id="widget" style="display:none;">
-  <div class="header">
-    <h1>Christmas Contest</h1>
-    <div>20 Sep to 31 Dec (23:59 GMT)</div>
-    <div class="divider"></div>
-    <h2 id="currentLevel">YOU'RE ON LEVEL 0!</h2>
+    <div class="widget" id="widget" style="display:none;">
+      <div class="circle">
+        <div class="small">Unlock Next Level</div>
+        <div class="big" id="next-units">0 Units</div>
+        <div class="reward" id="next-reward">$0</div>
+      </div>
+
+      <div class="stats">
+        <div>Units: <span id="user-units">0</span></div>
+        <div>Points: <span id="user-points">0</span></div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-text" id="progress-text">0%</div>
+
+      <div class="email-display" id="user-email"></div>
+    </div>
   </div>
 
-  <div class="circle" id="rewardCircle">
-    <div id="nextPoints">Next Level: 0 points</div>
-    <div class="reward" id="nextReward">$0</div>
-  </div>
+  <script>
+    const milestones = [
+      { level: 1, points: 250, reward: "$50" },
+      { level: 2, points: 500, reward: "$100" },
+      { level: 3, points: 1500, reward: "$500" },
+      { level: 4, points: 2500, reward: "$750" },
+      { level: 5, points: 5000, reward: "$2,000" },
+      { level: 6, points: 10000, reward: "$5,000" },
+      { level: 7, points: 25000, reward: "$12,500" },
+      { level: 8, points: 50000, reward: "$25,000" },
+      { level: 9, points: 100000, reward: "$75,000" },
+      { level: 10, points: 125000, reward: "$100,000" }
+    ];
 
-  <div class="stats">
-    <div id="units">Units: 0</div>
-    <div id="currentPoints">Points: 0</div>
-  </div>
+    async function loadData() {
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      if (!email) return;
 
-  <div class="level-banner" id="nextLevel">LEVEL 1: 250 POINTS</div>
+      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
+      const res = await fetch(url);
+      const text = await res.text();
+      const rows = text.split("\n").map(r => r.split(","));
 
-  <div class="progress">
-    <div class="progress-fill" id="progressFill"></div>
-  </div>
-  <div id="progressText">0 / 250 (0%)</div>
+      const headers = rows[0];
+      const emailIdx = headers.indexOf("Email");
+      const unitsIdx = headers.indexOf("Units");
+      const pointsIdx = headers.indexOf("Points");
 
-  <div class="footer" id="userEmail"></div>
-</div>
+      const user = rows.find(r => r[emailIdx] && r[emailIdx].trim().toLowerCase() === email);
 
-<script>
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
-
-  const milestones = [
-    { points: 250, reward: 50 },
-    { points: 500, reward: 100 },
-    { points: 1500, reward: 500 },
-    { points: 2500, reward: 750 },
-    { points: 5000, reward: 2000 },
-    { points: 10000, reward: 5000 },
-    { points: 25000, reward: 12500 },
-    { points: 50000, reward: 25000 },
-    { points: 100000, reward: 75000 },
-    { points: 125000, reward: 100000 },
-  ];
-
-  async function loadData() {
-    const email = document.getElementById("email").value.trim().toLowerCase();
-    if (!email) return alert("Please enter your email!");
-
-    const res = await fetch(sheetUrl);
-    const text = await res.text();
-    const rows = text.split("\n").map(r => r.split(","));
-    
-    const idx = rows.findIndex(r => r[0].trim().toLowerCase() === email);
-    if (idx === -1) {
-      alert("Email not found!");
-      return;
-    }
-
-    const units = parseInt(rows[idx][3] || "0", 10);   // cột D
-    const points = parseInt(rows[idx][4] || "0", 10);  // cột E
-
-    document.getElementById("userEmail").innerText = "Email: " + email;
-    document.getElementById("units").innerText = "Units: " + units.toLocaleString();
-    document.getElementById("currentPoints").innerText = "Points: " + points.toLocaleString();
-
-    let currentLevel = 0, nextMilestone = milestones[0];
-    for (let i = 0; i < milestones.length; i++) {
-      if (points >= milestones[i].points) {
-        currentLevel = i + 1;
-        nextMilestone = milestones[i + 1] || milestones[i];
-      } else {
-        nextMilestone = milestones[i];
-        break;
+      if (!user) {
+        alert("Email not found");
+        return;
       }
+
+      const units = parseInt(user[unitsIdx] || 0, 10);
+      const points = parseInt(user[pointsIdx] || 0, 10);
+
+      document.getElementById("widget").style.display = "block";
+      document.getElementById("user-email").innerText = "Email: " + email;
+      document.getElementById("user-units").innerText = units;
+      document.getElementById("user-points").innerText = points;
+
+      let currentLevel = 0;
+      let nextMilestone = milestones[0];
+      for (let i = 0; i < milestones.length; i++) {
+        if (points >= milestones[i].points) {
+          currentLevel = milestones[i].level;
+          nextMilestone = milestones[i + 1] || milestones[i];
+        }
+      }
+
+      document.getElementById("current-level").innerText = `YOU'RE ON LEVEL ${currentLevel}!`;
+      document.getElementById("next-units").innerText = `${nextMilestone.points} Points`;
+      document.getElementById("next-reward").innerText = nextMilestone.reward;
+
+      const progress = Math.min((points / nextMilestone.points) * 100, 100).toFixed(1);
+      document.getElementById("progress-fill").style.width = progress + "%";
+      document.getElementById("progress-text").innerText = progress + "%";
     }
-
-    document.getElementById("currentLevel").innerText = `YOU'RE ON LEVEL ${currentLevel}!`;
-    document.getElementById("nextPoints").innerText = `Next Level: ${nextMilestone.points.toLocaleString()} points`;
-    document.getElementById("nextReward").innerText = `$${nextMilestone.reward.toLocaleString()}`;
-    document.getElementById("nextLevel").innerText = `LEVEL ${currentLevel+1}: ${nextMilestone.points.toLocaleString()} POINTS`;
-
-    const progress = Math.min((points / nextMilestone.points) * 100, 100);
-    document.getElementById("progressFill").style.width = progress + "%";
-    document.getElementById("progressText").innerText = `${points.toLocaleString()} / ${nextMilestone.points.toLocaleString()} (${progress.toFixed(0)}%)`;
-
-    document.getElementById("widget").style.display = "block";
-  }
-</script>
-
+  </script>
 </body>
 </html>
