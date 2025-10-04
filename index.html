@@ -6,50 +6,49 @@
   <title>Christmas Contest 2025</title>
   <style>
     body {
-      font-family: "Gotham", Arial, sans-serif;
+      font-family: Arial, sans-serif;
+      background: #f7f8fc;
       margin: 0;
-      background: #f6f7fb;
-      color: #1e2447;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
     }
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 20px;
-    }
-    .card {
+    .widget {
       background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-      padding: 24px;
-      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 420px;
+      overflow: hidden;
+      margin-top: 30px;
     }
     .header {
       background: #1e2447;
       color: #fff;
-      padding: 28px 20px;
+      text-align: center;
+      padding: 20px;
       border-radius: 20px 20px 0 0;
     }
-    .header h1 {
+    .header h2 {
       margin: 0;
-      font-size: 26px;
-      font-weight: 700;
+      font-size: 22px;
     }
-    .header .dates {
-      font-size: 16px;
-      margin: 6px 0 12px;
-      opacity: 0.85;
+    .header p {
+      margin: 5px 0;
+      font-size: 14px;
+      opacity: 0.9;
     }
     .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      margin: 10px auto;
       width: 50%;
-      height: 2px;
-      margin: 12px auto;
-      background: rgba(255,255,255,0.5);
-      border-radius: 5px;
     }
-    .level-text {
-      font-size: 20px;
-      font-weight: 600;
-      margin-top: 10px;
+    .header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: bold;
     }
     .circle {
       margin: 30px auto 20px;
@@ -58,33 +57,35 @@
       border-radius: 50%;
       border: 8px solid #f4c542;
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
-      background: #fff;
+      justify-content: center;
+      align-items: center;
+      color: #1e2447;
+      text-align: center;
     }
-    .circle .small {
+    .circle small {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .circle .big {
-      font-size: 28px;
-      font-weight: 700;
+    .circle strong {
+      font-size: 22px;
     }
-    .circle .reward {
-      font-size: 16px;
+    .circle span {
+      font-size: 14px;
       margin-top: 4px;
     }
-    .row {
+    .info-row {
       display: flex;
-      justify-content: center;
-      gap: 40px;
-      font-size: 18px;
-      font-weight: 600;
-      margin: 20px 0;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-weight: bold;
+      color: #1e2447;
     }
+
+    /* Progress bar */
     .progress-container {
-      margin-top: 20px;
+      margin: 20px;
+      position: relative;
     }
     .progress-bar {
       height: 20px;
@@ -99,7 +100,6 @@
       background: linear-gradient(90deg, #1e2447, #3f4a77);
       width: 0%;
       transition: width 0.4s ease;
-      position: relative;
     }
     .progress-marker {
       position: absolute;
@@ -114,131 +114,96 @@
       justify-content: space-between;
       font-size: 14px;
       margin-top: 6px;
+      color: #777; /* xám nhạt */
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
       color: #777;
-    }
-    .email-box {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-      gap: 8px;
-    }
-    input[type="email"] {
-      padding: 10px 14px;
-      font-size: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      flex: 1;
-    }
-    button {
-      background: #1e2447;
-      color: #fff;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
+      padding: 15px 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Email input -->
-    <div class="card" id="loginCard">
-      <div class="email-box">
-        <input type="email" id="emailInput" placeholder="Enter your email (example@domain.com)" />
-        <button onclick="loadWidget()">View my widget</button>
+  <div class="widget">
+    <div class="header">
+      <h2>Christmas Contest</h2>
+      <p>20 Sep to 31 Dec (23:59 GMT)</p>
+      <div class="divider"></div>
+      <h3 id="levelText">YOU'RE ON LEVEL 0!</h3>
+    </div>
+
+    <div class="circle">
+      <small>Unlock Next Level</small>
+      <strong id="nextPoints">250 Points</strong>
+      <span id="nextReward">$50</span>
+    </div>
+
+    <div class="info-row">
+      <div id="unitsText">Units: 0</div>
+      <div id="pointsText">Points: 0</div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-marker" id="progressMarker">0%</div>
+      </div>
+      <div class="progress-meta">
+        <span id="progressText">0 / 250 Points</span>
+        <span class="time-left">⏰ <span id="daysLeft"></span> days left</span>
       </div>
     </div>
 
-    <!-- Main widget -->
-    <div class="card" id="widgetCard" style="display:none;">
-      <div class="header">
-        <h1>Christmas Contest</h1>
-        <div class="dates">20 Sep to 31 Dec (23:59 GMT)</div>
-        <div class="divider"></div>
-        <div class="level-text" id="currentLevel">YOU'RE ON LEVEL 0!</div>
-      </div>
-
-      <div class="circle">
-        <div class="small">Unlock Next Level</div>
-        <div class="big" id="nextTarget">250 Points</div>
-        <div class="reward" id="nextReward">$50</div>
-      </div>
-
-      <div class="row">
-        <div id="units">Units: 0</div>
-        <div id="points">Points: 0</div>
-      </div>
-
-      <div class="progress-container">
-        <div class="progress-bar" id="progressBar">
-          <div class="progress-fill" id="progressFill">
-            <div class="progress-marker" id="progressMarker">0%</div>
-          </div>
-        </div>
-        <div class="progress-meta">
-          <span id="progressText">0 / 250 Points</span>
-          <span>⏰ <span id="daysLeft"></span> days left</span>
-        </div>
-      </div>
-
-      <p style="margin-top:16px; font-size:14px; color:#555;">Email: <span id="userEmail"></span></p>
-    </div>
+    <div class="footer" id="emailDisplay">Email: example@email.com</div>
   </div>
 
-<script>
-  const milestones = [
-    {points:250, reward:"$50"},
-    {points:500, reward:"$100"},
-    {points:1500, reward:"$500"},
-    {points:2500, reward:"$750"},
-    {points:5000, reward:"$2,000"},
-    {points:10000, reward:"$5,000"},
-    {points:25000, reward:"$12,500"},
-    {points:50000, reward:"$25,000"},
-    {points:100000, reward:"$75,000"},
-    {points:125000, reward:"$100,000"}
-  ];
+  <script>
+    // Fake data (ví dụ từ Google Sheets)
+    const units = 517;
+    const points = 707;
+    const email = "thanhsangkm34@gmail.com";
 
-  function loadWidget(){
-    const email = document.getElementById("emailInput").value.trim();
-    if(!email) return alert("Enter email");
+    const levels = [
+      { level: 1, points: 250, reward: "$50" },
+      { level: 2, points: 500, reward: "$100" },
+      { level: 3, points: 1500, reward: "$500" },
+      { level: 4, points: 2500, reward: "$750" },
+      { level: 5, points: 5000, reward: "$2000" },
+      { level: 6, points: 10000, reward: "$5000" },
+      { level: 7, points: 25000, reward: "$12500" },
+      { level: 8, points: 50000, reward: "$25000" },
+      { level: 9, points: 100000, reward: "$75000" },
+      { level: 10, points: 125000, reward: "$100000" },
+    ];
 
-    document.getElementById("loginCard").style.display="none";
-    document.getElementById("widgetCard").style.display="block";
-    document.getElementById("userEmail").innerText = email;
-
-    // Fake data (replace with Google Sheet fetch)
-    let points = 707;
-    let units = 517;
-
-    document.getElementById("points").innerText = "Points: " + points;
-    document.getElementById("units").innerText = "Units: " + units;
-
-    // Determine level
+    // Xác định level hiện tại
     let currentLevel = 0;
-    for(let i=0;i<milestones.length;i++){
-      if(points >= milestones[i].points) currentLevel = i+1;
+    for (let i = 0; i < levels.length; i++) {
+      if (points >= levels[i].points) currentLevel = levels[i].level;
     }
-    document.getElementById("currentLevel").innerText = "YOU'RE ON LEVEL " + currentLevel + "!";
+    const next = levels.find(l => l.points > points) || levels[levels.length-1];
 
-    let next = milestones.find(m => m.points > points);
-    if(next){
-      document.getElementById("nextTarget").innerText = next.points + " Points";
-      document.getElementById("nextReward").innerText = next.reward;
-      let progress = (points / next.points)*100;
-      document.getElementById("progressFill").style.width = progress+"%";
-      document.getElementById("progressMarker").innerText = Math.floor(progress)+"%";
-      document.getElementById("progressMarker").style.left = progress+"%";
-      document.getElementById("progressText").innerText = points + " / " + next.points + " Points";
-    }
+    // Update UI
+    document.getElementById("levelText").innerText = "YOU'RE ON LEVEL " + currentLevel + "!";
+    document.getElementById("nextPoints").innerText = next.points + " Points";
+    document.getElementById("nextReward").innerText = next.reward;
+    document.getElementById("unitsText").innerText = "Units: " + units;
+    document.getElementById("pointsText").innerText = "Points: " + points;
+    document.getElementById("progressText").innerText = points + " / " + next.points + " Points";
+    document.getElementById("emailDisplay").innerText = "Email: " + email;
 
-    // Days left
-    let end = new Date("2025-12-31T23:59:00Z");
-    let now = new Date();
-    let diff = Math.ceil((end-now)/(1000*60*60*24));
+    // Progress bar
+    let progress = (points / next.points) * 100;
+    document.getElementById("progressFill").style.width = progress + "%";
+    document.getElementById("progressMarker").innerText = Math.floor(progress) + "%";
+    document.getElementById("progressMarker").style.left = progress + "%";
+
+    // Days left (31 Dec 2025)
+    const endDate = new Date("2025-12-31T23:59:00Z");
+    const today = new Date();
+    const diff = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
     document.getElementById("daysLeft").innerText = diff;
-  }
-</script>
+  </script>
 </body>
 </html>
