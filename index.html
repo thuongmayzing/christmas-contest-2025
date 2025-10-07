@@ -10,20 +10,30 @@
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       background-color: #f7f8fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
     .container {
       max-width: 500px;
-      margin: 40px auto;
+      width: 90%;
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
+    /* ===== Email screen ===== */
     .email-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
-      padding: 40px 20px;
+      gap: 12px;
     }
 
     .email-box input {
@@ -32,7 +42,7 @@
       border: 1px solid #ccc;
       width: 80%;
       font-family: 'Montserrat', sans-serif;
-      margin-bottom: 12px;
+      font-size: 16px;
     }
 
     .email-box button {
@@ -40,12 +50,14 @@
       color: white;
       border: none;
       border-radius: 8px;
-      padding: 10px 16px;
+      padding: 10px 20px;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
     }
 
+    /* ===== Widget ===== */
     .header {
       background: #1e2447;
       color: white;
@@ -109,9 +121,9 @@
     }
 
     .circle .reward {
-      font-size: 14px;
+      font-size: 18px; /* tăng size chữ $500 */
       margin-top: 4px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .stats {
@@ -123,7 +135,7 @@
       color: #1e2447;
     }
 
-    /* === Progress Bar === */
+    /* ===== Progress bar ===== */
     .progress-container {
       position: relative;
       width: 90%;
@@ -177,7 +189,6 @@
     <!-- Email input (first screen only) -->
     <div class="email-box" id="email-box">
       <input type="email" placeholder="Enter your email (example@domain.com)" id="emailInput">
-      <br>
       <button onclick="loadWidget()">View my widget</button>
     </div>
 
@@ -236,7 +247,6 @@
         const emailIndex = headers.indexOf("email");
         const unitsIndex = headers.indexOf("units");
         const pointsIndex = headers.indexOf("points");
-        const tierIndex = headers.indexOf("tier");
 
         const user = rows.find(r => r[emailIndex]?.trim().toLowerCase() === email);
 
@@ -248,11 +258,8 @@
 
         const units = parseInt(user[unitsIndex] || 0);
         const points = parseInt(user[pointsIndex] || 0);
-        const tier = user[tierIndex] || "N/A";
 
-        document.querySelector(".level").textContent = `YOU'RE ON LEVEL ${tier}!`;
-
-        // Level configuration
+        // === Level mapping theo bảng milestone ===
         const levels = [
           { points: 250, reward: "$50" },
           { points: 500, reward: "$100" },
@@ -266,12 +273,17 @@
           { points: 125000, reward: "$100000" }
         ];
 
+        let currentLevel = 0;
+        for (let i = 0; i < levels.length; i++) {
+          if (points >= levels[i].points) currentLevel = i + 1;
+        }
+        document.querySelector(".level").textContent = `YOU'RE ON LEVEL ${currentLevel}!`;
+
         const nextLevel = levels.find(l => l.points > points) || levels[levels.length - 1];
         document.querySelector(".circle .units").textContent = nextLevel.points + " Points";
         document.querySelector(".circle .reward").textContent = nextLevel.reward;
         document.querySelector(".stats").innerHTML = `<div>Units: ${units}</div><div>Points: ${points}</div>`;
 
-        // Progress calculation
         const percent = Math.round((points / nextLevel.points) * 100);
         const progressBar = document.getElementById("progress-bar");
         progressBar.style.width = percent + "%";
