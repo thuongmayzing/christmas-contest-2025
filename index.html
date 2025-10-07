@@ -1,259 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Christmas Contest 2025</title>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
-      background: #f5f6fa;
+      background-color: #f6f7fb;
+      color: #1e2447;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
     }
+
     .container {
-      max-width: 600px;
-      width: 100%;
-      padding: 20px;
-    }
-    .card {
+      max-width: 650px;
+      margin: 40px auto;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-top: 20px;
-      text-align: center;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
     }
+
+    .email-section {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .email-section input {
+      width: 75%;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .email-section button {
+      margin-left: 10px;
+      padding: 14px 24px;
+      background-color: #1e2447;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
     .header {
       background: #1e2447;
       color: white;
-      padding: 40px 20px;
+      padding: 50px 20px;
+      text-align: center;
     }
-    .header h1 { margin: 0; font-size: 26px; }
-    .header .dates { margin-top: 5px; font-size: 16px; color: #c7c9d3; }
+
+    .header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 17px;
+      opacity: 0.85;
+    }
+
     .divider {
-      height: 2px;
-      background: #c7c9d3;
       width: 50%;
-      margin: 12px auto;
+      margin: 18px auto;
+      border-top: 2px solid #ccc;
+      opacity: 0.3;
     }
-    .level-text { font-size: 22px; font-weight: bold; }
+
+    .header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 10px 0 0;
+    }
+
     .circle {
-      width: 220px;
-      height: 220px;
+      width: 230px;
+      height: 230px;
+      border: 10px solid #f8cd52;
       border-radius: 50%;
-      border: 8px solid #f4c542;
-      margin: 20px auto;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-weight: 600;
-      color: #1e2447;
+      margin: 30px auto 20px;
     }
-    .circle .points { font-size: 26px; font-weight: 700; }
-    .circle .reward { font-size: 16px; color: #444; }
+
+    .circle p {
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    .circle .main {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .circle .sub {
+      font-size: 16px;
+      font-weight: 600;
+      color: #555;
+    }
+
     .stats {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       font-size: 18px;
-      margin: 15px 0;
-      font-weight: 600;
+      font-weight: 700;
+      margin-top: 25px;
+      text-align: center;
     }
-    .progress-container {
-      width: 100%;
-      background: #e0e0e0;
-      border-radius: 20px;
-      height: 28px;
+
+    .progress-bar {
+      margin: 20px auto 10px;
+      width: 90%;
+      height: 25px;
+      background-color: #e2e2e2;
+      border-radius: 30px;
       position: relative;
-      margin-top: 10px;
     }
+
     .progress-fill {
       height: 100%;
-      border-radius: 20px;
-      background: linear-gradient(90deg, #1e2447, #3f4b8a);
+      border-radius: 30px;
+      background: linear-gradient(90deg, #1e2447, #3f4b7a);
       width: 0%;
-      color: white;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding-right: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      transition: width 0.4s ease;
+      transition: width 1s ease;
+      position: relative;
     }
+
+    .progress-fill span {
+      position: absolute;
+      right: 10px;
+      top: 2px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
     .progress-info {
       display: flex;
       justify-content: space-between;
       font-size: 15px;
-      margin-top: 5px;
-      color: #666;
-      font-weight: 500;
+      color: #888;
+      width: 90%;
+      margin: 5px auto 25px;
     }
-    .email-box {
-      margin: 20px 0;
-      display: flex;
-      gap: 10px;
+
+    .progress-info img {
+      width: 18px;
+      vertical-align: middle;
+      margin-right: 4px;
     }
-    .email-box input {
-      flex: 1;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+
+    .email-display {
+      text-align: center;
+      color: #777;
+      margin-bottom: 20px;
     }
-    .email-box button {
-      background: #1e2447;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
+
+    #widget {
+      display: none;
+      padding-bottom: 40px;
     }
-    .email-box button:hover { background: #323c6d; }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Email nhập -->
-    <div class="card" id="email-card">
-      <div class="email-box">
-        <input type="email" id="emailInput" placeholder="Enter your email (example@domain.com)">
-        <button onclick="showWidget()">View my widget</button>
-      </div>
-      <p id="hint"></p>
+    <div class="email-section" id="emailSection">
+      <input type="email" id="emailInput" placeholder="Enter your email (example@domain.com)" />
+      <button onclick="loadWidget()">View my widget</button>
     </div>
 
-    <!-- Contest widget -->
-    <div class="card" id="widget" style="display:none;">
+    <div id="widget">
       <div class="header">
         <h1>Christmas Contest</h1>
-        <div class="dates">20 Sep to 31 Dec (23:59 GMT)</div>
+        <p>20 Sep to 31 Dec (23:59 GMT)</p>
         <div class="divider"></div>
-        <div id="levelText" class="level-text">YOU'RE ON LEVEL 0!</div>
+        <h2 id="levelTitle">YOU'RE ON LEVEL 0!</h2>
       </div>
 
       <div class="circle">
-        <div>Unlock Next Level</div>
-        <div class="points" id="nextPoints">0 Points</div>
-        <div class="reward" id="nextReward">$0</div>
+        <p>Unlock Next Level</p>
+        <p class="main" id="nextPoints">0 Points</p>
+        <p class="sub" id="reward">$0</p>
       </div>
 
       <div class="stats">
-        <div id="units">Units: 0</div>
-        <div id="points">Points: 0</div>
+        <div>Units: <span id="units">0</span></div>
+        <div>Points: <span id="points">0</span></div>
       </div>
 
-      <div class="progress-container">
-        <div class="progress-fill" id="progressFill">0%</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"><span id="progressText">0%</span></div>
       </div>
+
       <div class="progress-info">
-        <div id="progressText">0 / 0 Points</div>
-        <div><span style="font-size:18px;">⏰</span> <span id="daysLeft">0 days left</span></div>
+        <span id="progressLabel">0 / 0 Points</span>
+        <span><img src="https://cdn-icons-png.flaticon.com/512/992/992700.png" alt="clock"> <span id="daysLeft">0 days left</span></span>
       </div>
 
-      <p id="userEmail" style="margin-top:15px;color:#777;"></p>
+      <p class="email-display" id="emailDisplay"></p>
     </div>
   </div>
 
-<script>
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    const sheetURL = "YOUR_GOOGLE_SHEET_CSV_LINK"; // <-- Thay link CSV công khai vào đây
 
-// Milestones
-const MILESTONES = [
-  { points: 250, bonus: 50 },
-  { points: 500, bonus: 100 },
-  { points: 1500, bonus: 500 },
-  { points: 2500, bonus: 750 },
-  { points: 5000, bonus: 2000 },
-  { points: 10000, bonus: 5000 },
-  { points: 25000, bonus: 12500 },
-  { points: 50000, bonus: 25000 },
-  { points: 100000, bonus: 75000 },
-  { points: 125000, bonus: 100000 }
-];
+    const levels = [
+      { level: 1, points: 250, reward: "$50" },
+      { level: 2, points: 500, reward: "$100" },
+      { level: 3, points: 1500, reward: "$500" },
+      { level: 4, points: 2500, reward: "$750" },
+      { level: 5, points: 5000, reward: "$2000" },
+      { level: 6, points: 10000, reward: "$5000" },
+      { level: 7, points: 25000, reward: "$12500" },
+      { level: 8, points: 50000, reward: "$25000" },
+      { level: 9, points: 100000, reward: "$75000" },
+      { level: 10, points: 125000, reward: "$100000" },
+    ];
 
-let USER_MAP = {};
-let sheetLoaded = false;
+    function loadWidget() {
+      const emailInput = document.getElementById("emailInput").value.trim().toLowerCase();
+      if (!emailInput) {
+        alert("Please enter your email!");
+        return;
+      }
 
-// Chuẩn hóa email
-function normEmail(e){ return (e||"").trim().toLowerCase(); }
-function parseNum(v){ return parseFloat((v||"0").toString().replace(/,/g,"")) || 0; }
+      Papa.parse(sheetURL, {
+        download: true,
+        header: true,
+        complete: function(results) {
+          const user = results.data.find(row =>
+            row["Email"] && row["Email"].trim().toLowerCase() === emailInput
+          );
 
-Papa.parse(SHEET_URL, {
-  download: true,
-  header: true,
-  complete: function(results){
-    const rows = results.data;
-    if(!rows || !rows.length){ return; }
-    const keys = Object.keys(rows[0]).map(k=>k.trim());
-    const emailKey = keys.find(k => /email/i.test(k)) || keys[0];
-    const unitsKey = keys.find(k => /unit/i.test(k));
-    const pointsKey = keys.find(k => /point/i.test(k));
-    rows.forEach(r=>{
-      const email = normEmail(r[emailKey]);
-      if(!email) return;
-      USER_MAP[email] = {
-        units: unitsKey ? parseNum(r[unitsKey]) : 0,
-        points: pointsKey ? parseNum(r[pointsKey]) : 0
-      };
-    });
-    sheetLoaded = true;
-    document.getElementById('hint').textContent = "Enter your email and click View my widget.";
-  }
-});
+          if (!user) {
+            alert("Email not found in contest list!");
+            return;
+          }
 
-function showWidget(){
-  const email = normEmail(document.getElementById("emailInput").value);
-  if(!email) return alert("Please enter your email.");
-  if(!sheetLoaded) return alert("Data not loaded yet.");
-  const user = USER_MAP[email];
-  if(!user) return alert("Email not found in contest list.");
+          const units = parseInt(user["Units"]) || 0;
+          const points = parseInt(user["Points"]) || 0;
+          const currentLevel = levels.find(l => points < l.points) || levels[levels.length - 1];
+          const nextPoints = currentLevel.points;
+          const reward = currentLevel.reward;
 
-  document.getElementById("email-card").style.display = "none";
-  document.getElementById("widget").style.display = "block";
+          document.getElementById("emailSection").style.display = "none";
+          document.getElementById("widget").style.display = "block";
+          document.getElementById("emailDisplay").innerText = "Email: " + user["Email"];
+          document.getElementById("levelTitle").innerText = `YOU'RE ON LEVEL ${currentLevel.level - 1}!`;
+          document.getElementById("nextPoints").innerText = `${nextPoints} Points`;
+          document.getElementById("reward").innerText = reward;
+          document.getElementById("units").innerText = units;
+          document.getElementById("points").innerText = points;
 
-  // Gán email hiển thị
-  document.getElementById("userEmail").textContent = "Email: " + email;
+          const progressPercent = Math.min((points / nextPoints) * 100, 100);
+          const progressBar = document.getElementById("progressFill");
+          const progressText = document.getElementById("progressText");
+          const progressLabel = document.getElementById("progressLabel");
 
-  // Cập nhật điểm
-  let points = user.points;
-  let units = user.units;
+          progressBar.style.width = progressPercent + "%";
+          progressText.innerText = `${Math.round(progressPercent)}%`;
+          progressLabel.innerText = `Progress: ${Math.round(progressPercent)}%`;
 
-  // Xác định level hiện tại
-  let currentLevel = 0;
-  let nextMilestone = MILESTONES[0];
-  for(let i=0; i<MILESTONES.length; i++){
-    if(points >= MILESTONES[i].points){
-      currentLevel = i+1;
-      nextMilestone = MILESTONES[i+1] || MILESTONES[i];
-    } else {
-      nextMilestone = MILESTONES[i];
-      break;
+          // Days left
+          const endDate = new Date("2025-12-31T23:59:00Z");
+          const now = new Date();
+          const diffDays = Math.max(Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)), 0);
+          document.getElementById("daysLeft").innerText = `${diffDays} days left`;
+        }
+      });
     }
-  }
-
-  document.getElementById("levelText").textContent = `YOU'RE ON LEVEL ${currentLevel}!`;
-  document.getElementById("nextPoints").textContent = `${nextMilestone.points} Points`;
-  document.getElementById("nextReward").textContent = `$${nextMilestone.bonus}`;
-  document.getElementById("units").textContent = `Units: ${units}`;
-  document.getElementById("points").textContent = `Points: ${points}`;
-
-  let progress = Math.min(points / nextMilestone.points * 100, 100);
-  document.getElementById("progressFill").style.width = progress + "%";
-  document.getElementById("progressFill").textContent = progress.toFixed(1) + "%";
-  document.getElementById("progressText").textContent = `${points} / ${nextMilestone.points} Points`;
-
-  // Days left
-  const end = new Date("2025-12-31T23:59:59Z");
-  const now = new Date();
-  const daysLeft = Math.ceil((end-now)/(1000*60*60*24));
-  document.getElementById("daysLeft").textContent = daysLeft + " days left";
-}
-</script>
+  </script>
 </body>
 </html>
