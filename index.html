@@ -100,7 +100,7 @@
 
     .progress-container {
       width: 90%;
-      margin: 0 auto 10px;
+      margin: 20px auto 10px;
       background: #e0e0e0;
       border-radius: 12px;
       height: 22px;
@@ -113,16 +113,17 @@
       border-radius: 12px;
       width: 0%;
       position: relative;
+      transition: width 1s ease-in-out;
     }
 
     .progress-label {
       position: absolute;
       top: -28px;
-      transform: translateX(-50%);
-      background: none;
       color: #1e2447;
       font-weight: 700;
       font-size: 14px;
+      transform: translateX(-50%);
+      transition: left 1s ease-in-out;
     }
 
     .footer-info {
@@ -205,9 +206,8 @@
         </div>
 
         <div class="progress-container">
-          <div class="progress-bar" id="progress-bar">
-            <div class="progress-label" id="progress-label">0%</div>
-          </div>
+          <div class="progress-bar" id="progress-bar"></div>
+          <div class="progress-label" id="progress-label">0%</div>
         </div>
 
         <div class="footer-info">
