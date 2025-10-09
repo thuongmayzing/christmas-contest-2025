@@ -121,7 +121,7 @@
     }
 
     .circle .reward {
-      font-size: 18px; /* tăng size chữ $500 */
+      font-size: 18px;
       margin-top: 4px;
       font-weight: 600;
     }
@@ -219,7 +219,7 @@
 
         <div class="footer-info">
           <div id="progress-text">0 / 250 Points</div>
-          <div>⏰ 89 days left</div>
+          <div>⏰ 0 days left</div>
         </div>
       </div>
 
@@ -231,6 +231,31 @@
 
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
+
+    // === Tính real-time days left đến 31 Dec 2025 ===
+    function updateTimeLeft() {
+      const endDate = new Date("2025-12-31T23:59:59Z");
+      const now = new Date();
+      const diff = endDate - now;
+
+      if (diff <= 0) {
+        return "0 days left";
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+      return `${days}d ${hours}h ${minutes}m left`;
+    }
+
+    // === Cập nhật real-time mỗi phút ===
+    function startCountdown() {
+      const footerRight = document.querySelector(".footer-info div:last-child");
+      const refresh = () => (footerRight.textContent = "⏰ " + updateTimeLeft());
+      refresh();
+      setInterval(refresh, 60000);
+    }
 
     async function loadWidget() {
       const email = document.getElementById("emailInput").value.trim().toLowerCase();
@@ -289,6 +314,9 @@
         progressBar.style.width = percent + "%";
         progressBar.textContent = percent + "%";
         document.getElementById("progress-text").textContent = `${points} / ${nextLevel.points} Points`;
+
+        // 🚀 Bắt đầu đếm ngược thời gian
+        startCountdown();
 
       } catch (error) {
         console.error("Error loading sheet:", error);
