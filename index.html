@@ -15,7 +15,6 @@
       align-items: center;
       min-height: 100vh;
     }
-
     .container {
       max-width: 500px;
       width: 90%;
@@ -24,7 +23,6 @@
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
-
     .email-box {
       display: flex;
       flex-direction: column;
@@ -34,7 +32,6 @@
       text-align: center;
       gap: 12px;
     }
-
     .email-box input {
       padding: 12px;
       border-radius: 8px;
@@ -43,7 +40,6 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 16px;
     }
-
     .email-box button {
       background: #1e2447;
       color: white;
@@ -55,9 +51,197 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 16px;
     }
-
     .header {
       background: #1e2447;
       color: white;
       text-align: center;
-      padding
+      padding: 40px 20px;
+    }
+    .header h1 { margin: 0; font-size: 26px; font-weight: 700; }
+    .header p { margin: 5px 0 10px; font-size: 16px; font-weight: 400; }
+    .header hr {
+      width: 50%;
+      margin: 12px auto;
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+    }
+    .header .level { font-size: 26px; font-weight: 700; margin-top: 10px; }
+    .content { text-align: center; padding: 40px 20px 30px; }
+    .circle {
+      width: 200px;
+      height: 200px;
+      border: 6px solid #f4c542;
+      border-radius: 50%;
+      margin: 0 auto 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: 600;
+      color: #1e2447;
+    }
+    .circle .unlock { font-size: 14px; margin-bottom: 4px; font-weight: 500; }
+    .circle .units { font-size: 28px; font-weight: 700; }
+    .circle .reward { font-size: 18px; margin-top: 4px; font-weight: 600; }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0 20px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e2447;
+    }
+    .progress-container {
+      position: relative;
+      width: 90%;
+      margin: 0 auto 10px;
+      background: #e0e0e0;
+      border-radius: 20px;
+      height: 26px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #1e2447, #2f3e70);
+      border-radius: 20px;
+      width: 0%;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      transition: width 0.6s ease;
+    }
+    .footer-info {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      margin: 6px auto 16px;
+      font-size: 14px;
+      color: gray;
+    }
+    .footer { text-align: center; font-size: 14px; padding: 10px; color: gray; }
+    #widget { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="email-box" id="email-box">
+      <input type="email" placeholder="Enter your email (example@domain.com)" id="emailInput">
+      <button onclick="loadWidget()">View my widget</button>
+    </div>
+
+    <div id="widget">
+      <div class="header">
+        <h1>Christmas Contest</h1>
+        <p>20 Sep to 31 Dec (23:59 GMT)</p>
+        <hr>
+        <div class="level">YOU'RE ON LEVEL 0!</div>
+      </div>
+
+      <div class="content">
+        <div class="circle">
+          <div class="unlock">Unlock Next Level</div>
+          <div class="units">250 Points</div>
+          <div class="reward">$50</div>
+        </div>
+
+        <div class="stats">
+          <div>Units: 0</div>
+          <div>Points: 0</div>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-bar">0%</div>
+        </div>
+
+        <div class="footer-info">
+          <div id="progress-text">0 / 250 Points</div>
+          <div id="days-left">⏰ 0 days left</div>
+        </div>
+      </div>
+
+      <div class="footer">
+        Email: <span id="user-email">example@domain.com</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
+
+    // ✅ Chỉ tính số ngày nguyên, không tính giờ/phút
+    function updateDaysLeft() {
+      const today = new Date();
+      const target = new Date("2025-12-31T00:00:00");
+      const utc1 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+      const utc2 = Date.UTC(target.getFullYear(), target.getMonth(), target.getDate());
+      const daysLeft = Math.max(0, Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24)));
+      document.getElementById("days-left").textContent = `⏰ ${daysLeft} days left`;
+    }
+
+    async function loadWidget() {
+      const email = document.getElementById("emailInput").value.trim().toLowerCase();
+      document.getElementById("user-email").textContent = email;
+
+      document.getElementById("email-box").style.display = "none";
+      document.getElementById("widget").style.display = "block";
+      updateDaysLeft();
+
+      try {
+        const response = await fetch(sheetUrl);
+        const text = await response.text();
+        const rows = text.split("\n").map(r => r.split(","));
+        const headers = rows[0].map(h => h.trim().toLowerCase());
+        const emailIndex = headers.indexOf("email");
+        const unitsIndex = headers.indexOf("units");
+        const pointsIndex = headers.indexOf("points");
+
+        const user = rows.find(r => r[emailIndex]?.trim().toLowerCase() === email);
+        if (!user) {
+          alert("Email not found!");
+          location.reload();
+          return;
+        }
+
+        const units = parseInt(user[unitsIndex] || 0);
+        const points = parseInt(user[pointsIndex] || 0);
+        const levels = [
+          { points: 250, reward: "$50" },
+          { points: 500, reward: "$100" },
+          { points: 1500, reward: "$500" },
+          { points: 2500, reward: "$750" },
+          { points: 5000, reward: "$2000" },
+          { points: 10000, reward: "$5000" },
+          { points: 25000, reward: "$12500" },
+          { points: 50000, reward: "$25000" },
+          { points: 100000, reward: "$75000" },
+          { points: 125000, reward: "$100000" }
+        ];
+
+        let currentLevel = 0;
+        for (let i = 0; i < levels.length; i++) {
+          if (points >= levels[i].points) currentLevel = i + 1;
+        }
+
+        document.querySelector(".level").textContent = `YOU'RE ON LEVEL ${currentLevel}!`;
+        const nextLevel = levels.find(l => l.points > points) || levels[levels.length - 1];
+        document.querySelector(".circle .units").textContent = nextLevel.points + " Points";
+        document.querySelector(".circle .reward").textContent = nextLevel.reward;
+        document.querySelector(".stats").innerHTML = `<div>Units: ${units}</div><div>Points: ${points}</div>`;
+
+        const percent = Math.round((points / nextLevel.points) * 100);
+        const progressBar = document.getElementById("progress-bar");
+        progressBar.style.width = percent + "%";
+        progressBar.textContent = percent + "%";
+        document.getElementById("progress-text").textContent = `${points} / ${nextLevel.points} Points`;
+      } catch (error) {
+        console.error("Error loading sheet:", error);
+        alert("Failed to load data. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
