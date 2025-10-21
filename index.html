@@ -15,6 +15,7 @@
       align-items: center;
       min-height: 100vh;
     }
+
     .container {
       max-width: 500px;
       width: 90%;
@@ -23,6 +24,8 @@
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
+
+    /* ===== Email screen ===== */
     .email-box {
       display: flex;
       flex-direction: column;
@@ -32,6 +35,7 @@
       text-align: center;
       gap: 12px;
     }
+
     .email-box input {
       padding: 12px;
       border-radius: 8px;
@@ -40,6 +44,7 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 16px;
     }
+
     .email-box button {
       background: #1e2447;
       color: white;
@@ -51,22 +56,45 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 16px;
     }
+
+    /* ===== Widget ===== */
     .header {
       background: #1e2447;
       color: white;
       text-align: center;
       padding: 40px 20px;
     }
-    .header h1 { margin: 0; font-size: 26px; font-weight: 700; }
-    .header p { margin: 5px 0 10px; font-size: 16px; font-weight: 400; }
+
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 5px 0 10px;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
     .header hr {
       width: 50%;
       margin: 12px auto;
       border: none;
       border-top: 1px solid rgba(255, 255, 255, 0.4);
     }
-    .header .level { font-size: 26px; font-weight: 700; margin-top: 10px; }
-    .content { text-align: center; padding: 40px 20px 30px; }
+
+    .header .level {
+      font-size: 26px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .content {
+      text-align: center;
+      padding: 40px 20px 30px;
+    }
+
     .circle {
       width: 200px;
       height: 200px;
@@ -80,17 +108,39 @@
       font-weight: 600;
       color: #1e2447;
     }
-    .circle .unlock { font-size: 14px; margin-bottom: 4px; font-weight: 500; }
-    .circle .units { font-size: 28px; font-weight: 700; }
-    .circle .reward { font-size: 18px; margin-top: 4px; font-weight: 600; }
+
+    .circle .unlock {
+      font-size: 14px;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .circle .units {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .circle .reward {
+      font-size: 18px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
     .stats {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
+      align-items: center;
       margin: 10px 0 20px;
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 600;
       color: #1e2447;
     }
+    .stats div {
+      flex: 1;
+      text-align: center;
+    }
+
+    /* ===== Progress bar ===== */
     .progress-container {
       position: relative;
       width: 90%;
@@ -100,11 +150,13 @@
       height: 26px;
       overflow: hidden;
     }
+
     .progress-bar {
       height: 100%;
       background: linear-gradient(90deg, #1e2447, #2f3e70);
       border-radius: 20px;
       width: 0%;
+      position: relative;
       color: #fff;
       font-weight: 700;
       font-size: 14px;
@@ -114,6 +166,7 @@
       padding-right: 10px;
       transition: width 0.6s ease;
     }
+
     .footer-info {
       display: flex;
       justify-content: space-between;
@@ -122,17 +175,28 @@
       font-size: 14px;
       color: gray;
     }
-    .footer { text-align: center; font-size: 14px; padding: 10px; color: gray; }
-    #widget { display: none; }
+
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      padding: 10px;
+      color: gray;
+    }
+
+    #widget {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Email input -->
     <div class="email-box" id="email-box">
       <input type="email" placeholder="Enter your email (example@domain.com)" id="emailInput">
       <button onclick="loadWidget()">View my widget</button>
     </div>
 
+    <!-- Widget -->
     <div id="widget">
       <div class="header">
         <h1>Christmas Contest</h1>
@@ -151,6 +215,7 @@
         <div class="stats">
           <div>Units: 0</div>
           <div>Points: 0</div>
+          <div>Rank: -</div>
         </div>
 
         <div class="progress-container">
@@ -159,7 +224,7 @@
 
         <div class="footer-info">
           <div id="progress-text">0 / 250 Points</div>
-          <div id="days-left">⏰ 0 days left</div>
+          <div id="time-left">⏰ Loading...</div>
         </div>
       </div>
 
@@ -172,23 +237,11 @@
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrR9NNEungPJAlTe2wiRwbacH7HChkkj_WpQuIKE-DQmMPpb8rJ1L3cNYeT63S4OOOoupb3cSCTXGS/pub?output=csv";
 
-    // ✅ Chỉ tính số ngày nguyên, không tính giờ/phút
-    function updateDaysLeft() {
-      const today = new Date();
-      const target = new Date("2025-12-31T00:00:00");
-      const utc1 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
-      const utc2 = Date.UTC(target.getFullYear(), target.getMonth(), target.getDate());
-      const daysLeft = Math.max(0, Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24)));
-      document.getElementById("days-left").textContent = `⏰ ${daysLeft} days left`;
-    }
-
     async function loadWidget() {
       const email = document.getElementById("emailInput").value.trim().toLowerCase();
       document.getElementById("user-email").textContent = email;
-
       document.getElementById("email-box").style.display = "none";
       document.getElementById("widget").style.display = "block";
-      updateDaysLeft();
 
       try {
         const response = await fetch(sheetUrl);
@@ -208,6 +261,7 @@
 
         const units = parseInt(user[unitsIndex] || 0);
         const points = parseInt(user[pointsIndex] || 0);
+
         const levels = [
           { points: 250, reward: "$50" },
           { points: 500, reward: "$100" },
@@ -227,16 +281,43 @@
         }
 
         document.querySelector(".level").textContent = `YOU'RE ON LEVEL ${currentLevel}!`;
+
         const nextLevel = levels.find(l => l.points > points) || levels[levels.length - 1];
         document.querySelector(".circle .units").textContent = nextLevel.points + " Points";
         document.querySelector(".circle .reward").textContent = nextLevel.reward;
-        document.querySelector(".stats").innerHTML = `<div>Units: ${units}</div><div>Points: ${points}</div>`;
+
+        // === Calculate rank group ===
+        const sorted = rows.slice(1)
+          .filter(r => parseFloat(r[pointsIndex]) > 0)
+          .sort((a, b) => parseFloat(b[pointsIndex]) - parseFloat(a[pointsIndex]));
+        const rank = sorted.findIndex(r => r[emailIndex]?.trim().toLowerCase() === email) + 1;
+
+        let rankGroup = "";
+        if (rank <= 5) rankGroup = "🎯 Top 5";
+        else if (rank <= 10) rankGroup = "🔥 Top 10";
+        else if (rank <= 15) rankGroup = "⭐ Top 15";
+        else if (rank <= 20) rankGroup = "💪 Top 20";
+        else rankGroup = "📊 Outside Top 20";
+
+        document.querySelector(".stats").innerHTML = `
+          <div>Units: ${units}</div>
+          <div>Points: ${points}</div>
+          <div>${rankGroup}</div>
+        `;
 
         const percent = Math.round((points / nextLevel.points) * 100);
         const progressBar = document.getElementById("progress-bar");
         progressBar.style.width = percent + "%";
         progressBar.textContent = percent + "%";
         document.getElementById("progress-text").textContent = `${points} / ${nextLevel.points} Points`;
+
+        // === Countdown to Dec 31, 2025 ===
+        const now = new Date();
+        const target = new Date("2025-12-31T23:59:59Z");
+        const diff = Math.max(0, target - now);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById("time-left").textContent = `⏰ ${days} days left`;
+
       } catch (error) {
         console.error("Error loading sheet:", error);
         alert("Failed to load data. Please try again.");
